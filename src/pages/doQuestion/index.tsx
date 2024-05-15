@@ -47,6 +47,9 @@ export default () => {
           className="contorBtn"
           onClick={() => {
             /*todo 跳转到结果页面*/
+
+
+
           }}
         >
           查看结果
