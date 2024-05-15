@@ -16,25 +16,41 @@ export default () => {
   const questionOptions = currentQuestion.options.map((option) => {
     return { label: `${option.key}.${option.value}`, value: option.key };
   });
+  // 当前回答
+  const [currentAnswer, setCurrentAnswer] = useState<string>();
+  // 回答列表
+  const [answerList] = useState<string[]>([]);
+
   //序号变化时,更新当前题目
   useEffect(() => {
     setCurrentQuestion(questions[current - 1]);
+    setCurrentAnswer(answerList[current - 1]);
   }, [current]);
 
   // @ts-ignore
   return (
     <View className="doQuestionPage">
+      {JSON.stringify(answerList)}
       <View className="at-article__h1 title">
         {current}.{currentQuestion.title}
       </View>
-      <view className="options-wrappper">
-        <AtRadio options={questionOptions} />
-      </view>
+      <View className="options-wrapper">
+        <AtRadio
+          options={questionOptions}
+          value={currentAnswer}
+          onClick={(value) => {
+            setCurrentAnswer(value);
+            // 记录回答
+            answerList[current - 1] = value;
+          }}
+        />
+      </View>
       {/* eslint-disable-next-line react/jsx-no-undef */}
       {current < questions.length && (
         <AtButton
           circle
           className="contorBtn"
+          disabled={!currentAnswer}
           onClick={() => setCurrent(current + 1)}
         >
           下一题
@@ -45,11 +61,9 @@ export default () => {
           type="primary"
           circle
           className="contorBtn"
+          disabled={!currentAnswer}
           onClick={() => {
             /*todo 跳转到结果页面*/
-
-
-
           }}
         >
           查看结果
