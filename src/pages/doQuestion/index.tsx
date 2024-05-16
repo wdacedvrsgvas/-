@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import GlobalFooter from "../../components/GlobalFooter";
 import questions from "../../data/questions.json";
 import "./index.scss";
+import Taro from "@tarojs/taro";
 
 /*做题页面*/
 
@@ -63,7 +64,11 @@ export default () => {
           className="contorBtn"
           disabled={!currentAnswer}
           onClick={() => {
-            /*todo 跳转到结果页面*/
+            // 存储答案
+            Taro.setStorageSync('answerList', answerList)
+            Taro.navigateTo({
+              url: '/pages/result/index',
+            })
           }}
         >
           查看结果
